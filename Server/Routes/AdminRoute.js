@@ -1,3 +1,4 @@
+
 import express from "express";
 import con from "../utils/db.js";
 import jwt from "jsonwebtoken";
@@ -139,26 +140,31 @@ const upload1 = multer({
 })
 // end imag eupload 
 
-router.post('/add_product',upload.single('image'), (req, res) => {
+router.post('/add_product', upload.single('image'), (req, res) => {
+    console.log("Product Data:", JSON.stringify(req.body));  // This will log the product details properly.
     const sql = `INSERT INTO product 
-    (name,price,description, quantity, image, category_id) 
+    (name, price, description, quantity, stock, expiry_date, image, category_id) 
     VALUES (?)`;
+    
     bcrypt.hash(req.body.description, 10, (err, hash) => {
-        if(err) return res.json({Status: false, Error: "Query Error"})
+        if (err) return res.json({ Status: false, Error: "Query Error" });
         const values = [
             req.body.name,
             req.body.price,
             hash,
             req.body.quantity, 
+            req.body.stock, 
+            req.body.expiry_date, 
             req.file.filename,
             req.body.category_id
-        ]
+        ];
         con.query(sql, [values], (err, result) => {
-            if(err) return res.json({Status: false, Error: err})
-            return res.json({Status: true})
-        })
-    })
-})
+            if (err) return res.json({ Status: false, Error: err });
+            return res.json({ Status: true });
+        });
+    });
+});
+
 
 router.get('/product', (req, res) => {
     const sql = "SELECT * FROM product";
@@ -179,35 +185,35 @@ router.get('/product/:id', (req, res) => {
 router.put('/edit_product/:id', (req, res) => {
     const id = req.params.id;
 
-    // Prepare the SQL query and the values to update
     const sql = `
         UPDATE product
-        SET name = ?, price = ?, quantity = ?, category_id = ?
+        SET name = ?, price = ?, quantity = ?, category_id = ?, stock = ?
         WHERE id = ?
     `;
+
     const values = [
         req.body.name,
         req.body.price,
         req.body.quantity,
         req.body.category_id,
-        id // Include the ID in the values array to match the WHERE clause
+        req.body.stock,
+        id // Ensure this matches the product ID in the URL
     ];
 
-    // Execute the query
     con.query(sql, values, (err, result) => {
         if (err) {
-            // Return an error response if there was a query error
             console.error("Query Error:", err);
             return res.status(500).json({ Status: false, Error: "Query Error: " + err.message });
         }
-        // Check if any rows were affected
+
         if (result.affectedRows === 0) {
             return res.status(404).json({ Status: false, Error: "Product not found or no changes made" });
         }
-        // Return a success response
-        res.status(200).json({ Status: true, Message: "Product updated successfully", Result: result });
+
+        return res.json({ Status: true, Message: "Product updated successfully" });
     });
 });
+
 
 // Delete a product by ID
 router.delete('/delete_product/:id', (req, res) => {
@@ -300,7 +306,7 @@ router.put('/edit_orders/:id', (req, res) => {
     const id = req.params.id;
     const sql = `
         UPDATE \`order\`
-        SET name = ?, number = ?, email = ?, method = ?, flat = ?, street = ?, city = ?, state = ?, country = ?, pin_code = ?, total_products = ?, total_price = ?
+        SET name = ?, number = ?, email = ?, method = ?, flat = ?, street = ?, city = ?, state = ?, country = ?, pin_code = ?, total_products = ?, total_price = ?, status=?
         WHERE order_id = ?
     `;
 
@@ -316,14 +322,21 @@ router.put('/edit_orders/:id', (req, res) => {
         req.body.country,
         req.body.pin_code,
         req.body.total_products,
-        req.body.total_price
+        req.body.total_price,
+        req.body.status,
     ];
-    
+
     con.query(sql, [...values, id], (err, result) => {
-        if (err) return res.json({ Status: false, Error: "Query Error" });
-        if (result.affectedRows === 0) {
-            return res.json({ Status: false, Error: "Order not found or no changes made" });
+        if (err) {
+            console.error("Query Error:", err); // Log the detailed error
+            return res.status(500).json({ Status: false, Error: "Query Error: " + err.message });
         }
+
+        if (result.affectedRows === 0) {
+            // If no rows were affected, it could mean the order ID doesn't exist.
+            return res.status(404).json({ Status: false, Error: "Order not found or no changes made" });
+        }
+
         return res.json({ Status: true, Message: "Order updated successfully" });
     });
 });
@@ -364,10 +377,11 @@ router.get('/employee_count', (req, res) => {
 router.get('/product_count', (req, res) => {
     const sql = "select count(id) as product from product";
     con.query(sql, (err, result) => {
-        if(err) return res.json({Status: false, Error: "Query Error"+err})
-        return res.json({Status: true, Result: result})
-    })
-})
+        if (err) return res.json({ Status: false, Error: "Query Error" + err });
+        return res.json({ Status: true, Result: result });
+    });
+});
+
 
 router.get('/salary_count', (req, res) => {
     const sql = "select sum(salary) as salaryOFEmp from employee";
@@ -394,6 +408,22 @@ router.get('/ordertot_count', (req, res) => {
         return res.json({Status: true, Result: result})
     })
 })
+
+
+router.get('/order_status_count', (req, res) => {
+    const sql = `
+        SELECT order_status, COUNT(order_id) AS order_count 
+        FROM \`order\` 
+        WHERE order_status IN ('Delivered', 'Pending') 
+        GROUP BY order_status
+    `;
+    con.query(sql, (err, result) => {
+        if (err) return res.json({Status: false, Error: "Query Error: " + err});
+        return res.json({Status: true, Result: result});
+    });
+});
+
+
 
 
 
