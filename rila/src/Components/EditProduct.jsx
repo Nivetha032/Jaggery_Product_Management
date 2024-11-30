@@ -9,6 +9,7 @@ const EditProduct = () => {
     price: "",
     description: "",
     quantity: "",
+    stock:"",
     category_id: "",
   });
   const [categories, setCategories] = useState([]);
@@ -16,7 +17,7 @@ const EditProduct = () => {
 
   useEffect(() => {
     // Fetch categories
-    axios.get('http://localhost:3000/auth/category')
+    axios.get('http://localhost:3001/auth/category')
       .then(result => {
         if (result.data.Status) {
           setCategories(result.data.Result);
@@ -26,7 +27,7 @@ const EditProduct = () => {
       }).catch(err => console.log(err));
 
     // Fetch product details
-    axios.get(`http://localhost:3000/auth/product/${id}`)
+    axios.get(`http://localhost:3001/auth/product/${id}`)
       .then(result => {
         const productData = result.data.Result[0];
         setProduct({
@@ -34,6 +35,7 @@ const EditProduct = () => {
           price: productData.price,
           description: productData.description,
           quantity: productData.quantity,
+          stock: productData.stock,
           category_id: productData.category_id,
         });
       }).catch(err => console.log(err));
@@ -42,7 +44,7 @@ const EditProduct = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Send the updated product data to the server
-    axios.put(`http://localhost:3000/auth/edit_product/${id}`, product)
+    axios.put(`http://localhost:3001/auth/edit_product/${id}`, product)
       .then(result => {
         if (result.data.Status) {
           navigate('/dashboard/product');
@@ -119,6 +121,21 @@ const EditProduct = () => {
               placeholder="Enter Quantity"
               value={product.quantity}
               onChange={(e) => setProduct({ ...product, quantity: e.target.value })}
+              required
+            />
+          </div>
+             {/* Stock Input */}
+             <div className="col-12">
+            <label htmlFor="inputStock" className="form-label">
+              Stock
+            </label>
+            <input
+              type="number"
+              className="form-control rounded-0"
+              id="inputStock"
+              placeholder="Enter Stock"
+              value={product.stock}
+              onChange={(e) => setProduct({ ...product, stock: e.target.value })}
               required
             />
           </div>
