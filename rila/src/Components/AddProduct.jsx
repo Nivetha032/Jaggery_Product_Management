@@ -8,6 +8,8 @@ const AddProduct = () => {
     price: "",
     description: "",
     quantity: "",
+    stock: "",
+    expiry_date: "",
     image: null, // Set initial image as null since we expect a file object
     category_id: "",
   });
@@ -17,7 +19,7 @@ const AddProduct = () => {
   useEffect(() => {
     // Fetch categories from the server
     axios
-      .get("http://localhost:3000/auth/category")
+      .get("http://localhost:3001/auth/category")
       .then((response) => {
         if (response.data.Status) {
           setCategories(response.data.Result);
@@ -32,7 +34,16 @@ const AddProduct = () => {
     e.preventDefault();
 
     // Client-side validation
-    if (!product.name || !product.price || !product.description || !product.quantity || !product.image || !product.category_id) {
+    if (
+      !product.name ||
+      !product.price ||
+      !product.description ||
+      !product.quantity ||
+      !product.image ||
+      !product.category_id ||
+      !product.stock ||
+      !product.expiry_date
+    ) {
       alert("All fields, including the image, must be filled out.");
       return;
     }
@@ -53,19 +64,33 @@ const AddProduct = () => {
 
     // Create a FormData object and append product data
     const formData = new FormData();
-    formData.append('name', product.name);
-    formData.append('price', product.price);
-    formData.append('description', product.description);
-    formData.append('quantity', product.quantity);
-    formData.append('image', product.image);
-    formData.append('category_id', product.category_id);
+    formData.append("name", product.name);
+    formData.append("price", product.price);
+    formData.append("description", product.description);
+    formData.append("quantity", product.quantity);
+    formData.append("stock", product.stock);
+    formData.append("expiry_date", product.expiry_date);
+    formData.append("image", product.image); // Make sure the image is a file
+    formData.append("category_id", product.category_id);
 
-    // Submit the form data to the server
     try {
-      const response = await axios.post("http://localhost:3000/auth/add_product", formData);
+      const response = await axios.post("http://localhost:3001/auth/add_product", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       if (response.data.Status) {
         // Redirect to product list after successful submission
         navigate("/dashboard/product");
+        // Optionally reset form data after successful submission
+        setProduct({
+          name: "",
+          price: "",
+          description: "",
+          quantity: "",
+          stock: "",
+          expiry_date: "",
+          image: null,
+          category_id: "",
+        });
       } else {
         alert(response.data.Error);
       }
@@ -89,9 +114,7 @@ const AddProduct = () => {
               id="inputName"
               placeholder="Enter Product Name"
               value={product.name}
-              onChange={(e) =>
-                setProduct({ ...product, name: e.target.value })
-              }
+              onChange={(e) => setProduct({ ...product, name: e.target.value })}
               required
             />
           </div>
@@ -104,9 +127,7 @@ const AddProduct = () => {
               id="inputPrice"
               placeholder="Enter Price"
               value={product.price}
-              onChange={(e) =>
-                setProduct({ ...product, price: e.target.value })
-              }
+              onChange={(e) => setProduct({ ...product, price: e.target.value })}
               required
             />
           </div>
@@ -118,9 +139,7 @@ const AddProduct = () => {
               id="inputDescription"
               placeholder="Enter Product Description"
               value={product.description}
-              onChange={(e) =>
-                setProduct({ ...product, description: e.target.value })
-              }
+              onChange={(e) => setProduct({ ...product, description: e.target.value })}
               required
             />
           </div>
@@ -133,9 +152,32 @@ const AddProduct = () => {
               id="inputQuantity"
               placeholder="Enter Quantity"
               value={product.quantity}
-              onChange={(e) =>
-                setProduct({ ...product, quantity: e.target.value })
-              }
+              onChange={(e) => setProduct({ ...product, quantity: e.target.value })}
+              required
+            />
+          </div>
+          {/* Stock */}
+          <div className="col-12">
+            <label htmlFor="inputStock" className="form-label">Stock</label>
+            <input
+              type="number"
+              className="form-control rounded-0"
+              id="inputStock"
+              placeholder="Enter Stock"
+              value={product.stock}
+              onChange={(e) => setProduct({ ...product, stock: e.target.value })}
+              required
+            />
+          </div>
+          {/* Expiry Date */}
+          <div className="col-12">
+            <label htmlFor="inputExpiryDate" className="form-label">Expiry Date</label>
+            <input
+              type="date"
+              className="form-control rounded-0"
+              id="inputExpiryDate"
+              value={product.expiry_date}
+              onChange={(e) => setProduct({ ...product, expiry_date: e.target.value })}
               required
             />
           </div>
@@ -146,9 +188,7 @@ const AddProduct = () => {
               className="form-select"
               id="category"
               value={product.category_id}
-              onChange={(e) =>
-                setProduct({ ...product, category_id: e.target.value })
-              }
+              onChange={(e) => setProduct({ ...product, category_id: e.target.value })}
               required
             >
               <option value="">Select Category</option>
@@ -164,9 +204,7 @@ const AddProduct = () => {
               type="file"
               className="form-control rounded-0"
               id="inputGroupFile01"
-              onChange={(e) =>
-                setProduct({ ...product, image: e.target.files[0] })
-              }
+              onChange={(e) => setProduct({ ...product, image: e.target.files[0] })}
               required
             />
           </div>

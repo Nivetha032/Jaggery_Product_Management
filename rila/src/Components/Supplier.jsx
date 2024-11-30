@@ -8,7 +8,7 @@ const Supplier = () => {
   
     useEffect(() => {
       axios
-        .get("http://localhost:3000/auth/supplier")
+        .get("http://localhost:3001/auth/supplier")
         .then((result) => {
           if (result.data.Status) {
             setSupplier(result.data.Result);
@@ -19,7 +19,7 @@ const Supplier = () => {
         .catch((err) => console.log(err));
     }, []);
     const handleDelete = (id) => {
-      axios.delete('http://localhost:3000/auth/delete_supplier/'+id)
+      axios.delete('http://localhost:3001/auth/delete_supplier/'+id)
       .then(result => {
           if(result.data.Status) {
               window.location.reload()
@@ -54,7 +54,7 @@ const Supplier = () => {
                   <td>{e.name}</td>
                   {/* <td>
                     <img
-                      src={`http://localhost:3000/Images/` + e.image}
+                      src={`http://localhost:3001/Images/` + e.image}
                       className="product_image"
                     />
                   </td> */}

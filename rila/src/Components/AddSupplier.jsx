@@ -16,7 +16,7 @@ const AddSupplier = () => {
     
       useEffect(() => {
         axios
-          .get("http://localhost:3000/auth/category")
+          .get("http://localhost:3001/auth/category")
           .then((result) => {
             if (result.data.Status) {
               setCategory(result.data.Result);
@@ -36,7 +36,7 @@ const AddSupplier = () => {
         formData.append('address', supplier.address);
         formData.append('phone', supplier.phone);
     
-        axios.post('http://localhost:3000/auth/add_supplier', formData)
+        axios.post('http://localhost:3001/auth/add_supplier', formData)
         .then(result => {
             if(result.data.Status) {
                 navigate('/dashboard/supplier')

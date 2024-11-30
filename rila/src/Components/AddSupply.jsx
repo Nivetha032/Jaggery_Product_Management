@@ -36,7 +36,7 @@ const AddSupply = () => {
         formData.append('phone', supply.phone);
 
         axios
-            .post("http://localhost:3000/auth/add_supply", formData)
+            .post("http://localhost:3001/auth/add_supply", formData)
             .then((result) => {
                 if (result.data.Status) {
                     navigate("/dashboard/supply");

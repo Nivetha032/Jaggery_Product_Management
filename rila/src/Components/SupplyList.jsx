@@ -10,7 +10,7 @@ const SupplyList = () => {
     useEffect(() => {
         const fetchSupplies = async () => {
             try {
-                const response = await axios.get("http://localhost:3000/auth/supply");
+                const response = await axios.get("http://localhost:3001/auth/supply");
                 if (response.data.Status) {
                     setSupplies(response.data.Result);
                 } else {
@@ -28,7 +28,7 @@ const SupplyList = () => {
     // Handle delete functionality
     const handleDelete = async (id) => {
         try {
-            const response = await axios.delete(`http://localhost:3000/auth/delete_supply/${id}`);
+            const response = await axios.delete(`http://localhost:3001/auth/delete_supply/${id}`);
             if (response.data.Status) {
                 // Remove the deleted supply from the state
                 setSupplies((prevSupplies) => prevSupplies.filter((supply) => supply.id !== id));

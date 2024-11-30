@@ -24,7 +24,7 @@ const PaymentPage = () => {
         };
 
         
-        axios.post('http://localhost:3000/payment/process', payload)
+        axios.post('http://localhost:3001/payment/process', payload)
             .then(result => {
                 if (result.data.paymentStatus) {
                     
