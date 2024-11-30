@@ -6,56 +6,54 @@ const EditOrders = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    // Initialize the order state
+    // Initialize state for the order's status
     const [order, setOrder] = useState({
-        order_id: "",
-        customer_name: "",
-        product_name: "",
-        price: "",
-        quantity: "",
-        address: "",
+        status: "",
     });
 
     // Fetch the order details on component mount
     useEffect(() => {
-        axios.get(`http://localhost:3000/auth/orders/${id}`)
+        axios.get(`http://localhost:3001/auth/orders/${id}`)
             .then(result => {
                 if (result.data.Status) {
                     // Populate the order state with the fetched data
                     setOrder({
-                        order_id: result.data.Result[0].order_id,
-                        customer_name: result.data.Result[0].customer_name,
-                        product_name: result.data.Result[0].product_name,
-                        price: result.data.Result[0].price,
-                        quantity: result.data.Result[0].quantity,
-                        address: result.data.Result[0].address,
+                        status: result.data.Result[0].status,
                     });
                 } else {
                     console.error('Error fetching order:', result.data.Error);
+                    alert('Failed to fetch order');
                 }
             })
-            .catch(err => console.error('Error fetching order:', err));
+            .catch(err => {
+                console.error('Error fetching order:', err);
+                alert('An error occurred while fetching the order');
+            });
     }, [id]);
 
-    // Handle form submission
+    // Handle form submission for status update
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Send update request
-        axios.put(`http://localhost:3000/edit_orders/${id}`, order)
+        // Send update request to the 'orders' table
+        axios.put(`http://localhost:3001/auth/edit_order_status/${id}`, order)
             .then(result => {
                 if (result.data.Status) {
-                    console.log('Order updated successfully');
-                    // Navigate back to the orders list or wherever you want
+                    console.log('Order status updated successfully');
+                    // Navigate back to the orders list
                     navigate('/dashboard/orders');
                 } else {
-                    console.error('Error updating order:', result.data.Error);
+                    console.error('Error updating order status:', result.data.Error);
+                    alert('Failed to update order status');
                 }
             })
-            .catch(err => console.error('Error updating order:', err));
+            .catch(err => {
+                console.error('Error updating order status:', err);
+                alert('An error occurred while updating the order status');
+            });
     };
 
-    // Handle form field changes
+    // Handle input change for the status field
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setOrder({
@@ -67,87 +65,17 @@ const EditOrders = () => {
     return (
         <div className="d-flex justify-content-center align-items-center mt-3">
             <div className="p-3 rounded w-50 border">
-                <h3 className="text-center">Edit Order</h3>
+                <h3 className="text-center">Edit Order Status</h3>
                 <form className="row g-1" onSubmit={handleSubmit}>
-                    {/* Order ID */}
+                    {/* Status Field */}
                     <div className="col-12">
-                        <label htmlFor="order_id" className="form-label">Order ID</label>
+                        <label htmlFor="status" className="form-label">Status</label>
                         <input
                             type="text"
                             className="form-control"
-                            id="order_id"
-                            name="order_id"
-                            value={order.order_id}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-
-                    {/* Customer Name */}
-                    <div className="col-12">
-                        <label htmlFor="customer_name" className="form-label">Customer Name</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="customer_name"
-                            name="customer_name"
-                            value={order.customer_name}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-
-                    {/* Product Name */}
-                    <div className="col-12">
-                        <label htmlFor="product_name" className="form-label">Product Name</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="product_name"
-                            name="product_name"
-                            value={order.product_name}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-
-                    {/* Price */}
-                    <div className="col-12">
-                        <label htmlFor="price" className="form-label">Price</label>
-                        <input
-                            type="number"
-                            className="form-control"
-                            id="price"
-                            name="price"
-                            value={order.price}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-
-                    {/* Quantity */}
-                    <div className="col-12">
-                        <label htmlFor="quantity" className="form-label">Quantity</label>
-                        <input
-                            type="number"
-                            className="form-control"
-                            id="quantity"
-                            name="quantity"
-                            value={order.quantity}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-
-                    {/* Address */}
-                    <div className="col-12">
-                        <label htmlFor="address" className="form-label">Address</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="address"
-                            name="address"
-                            value={order.address}
+                            id="status"
+                            name="status"
+                            value={order.status}
                             onChange={handleInputChange}
                             required
                         />
@@ -155,7 +83,7 @@ const EditOrders = () => {
 
                     {/* Submit Button */}
                     <div className="col-12 mt-2">
-                        <button type="submit" className="btn btn-primary w-100">Save Changes</button>
+                        <button type="submit" className="btn btn-primary w-100">Save Status</button>
                     </div>
                 </form>
             </div>
