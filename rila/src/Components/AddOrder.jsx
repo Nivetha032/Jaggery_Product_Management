@@ -42,8 +42,8 @@ const AddOrder = () => {
     formData.append("image", order.image);
 
     try {
-      // Send a POST request to add the order
-      const response = await axios.post('http://localhost:3000/auth/add_orders', formData);
+      // Send a POST request to add the order to the 'orders' table
+      const response = await axios.post('http://localhost:3001/auth/add_orders', formData);
 
       // Check response status and data
       if (response.data && response.data.Status) {
