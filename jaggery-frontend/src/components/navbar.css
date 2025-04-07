@@ -1,0 +1,78 @@
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px; /* Reduced height */
+    background: #6f056f; /* Deep violet background */
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+}
+
+/* Navbar heading */
+.navbar h1 {
+    color: #E6E6FA; /* Light violet text */
+    font-size: 22px;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar links - Center alignment */
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 30px; /* Increased spacing for better visibility */
+    padding: 0;
+    margin: 0 auto; /* Centers the nav links */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Navbar links - alignment */
+.navbar ul li {
+    display: flex;
+    align-items: center;
+}
+
+/* Navbar link styling */
+.navbar ul li a {
+    text-decoration: none;
+    color: #D8BFD8; /* Light violet text */
+    font-size: 16px;
+    font-weight: 600;
+    padding: 5px 10px;
+    transition: color 0.3s ease-in-out;
+}
+
+/* Hover effect */
+.navbar ul li a:hover {
+    color: #FFD700; /* Gold color on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+    }
+    
+    .navbar ul {
+        position: static;
+        transform: none;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .navbar ul li {
+        margin-bottom: 5px;
+    }
+}
