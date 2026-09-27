@@ -1,0 +1,195 @@
+/* Hero */
+.hero-section {
+  position: relative;
+  height: 92vh;
+  min-height: 560px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(44, 24, 16, 0.55) 0%, rgba(44, 24, 16, 0.72) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  color: var(--text-on-dark);
+  max-width: 680px;
+}
+
+.hero-eyebrow {
+  color: var(--gold-400);
+}
+
+.hero-content h1 {
+  color: var(--white);
+  font-size: 3.4rem;
+  margin-bottom: 18px;
+}
+
+.hero-content p {
+  color: rgba(253, 243, 231, 0.85);
+  font-size: 1.15rem;
+  max-width: 520px;
+  margin-bottom: 32px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Featured products */
+.products-section {
+  background: var(--cream-50);
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.feature-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+}
+
+.feature-card-image {
+  position: relative;
+  height: 220px;
+}
+
+.feature-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.feature-card-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: var(--white);
+}
+
+.feature-card-body {
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.feature-card-body h3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+/* About */
+.about-section {
+  background: var(--cream-200);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.about-image img {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.about-content h2 {
+  font-size: 2.2rem;
+  margin-bottom: 16px;
+}
+
+.about-content > p {
+  font-size: 1.05rem;
+  margin-bottom: 30px;
+}
+
+.about-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+
+.about-list li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.about-list-icon {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--white);
+  color: var(--gold-700);
+  box-shadow: var(--shadow-sm);
+}
+
+.about-list h4 {
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.about-list p {
+  font-size: 13px;
+  margin: 0;
+}
+
+@media (max-width: 960px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-content h1 {
+    font-size: 2.3rem;
+  }
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+  .about-list {
+    grid-template-columns: 1fr;
+  }
+}

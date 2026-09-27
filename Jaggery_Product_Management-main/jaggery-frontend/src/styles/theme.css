@@ -1,0 +1,244 @@
+/* =========================================================
+   RILA GROUPS — GLOBAL DESIGN SYSTEM
+   Warm, organic palette inspired by jaggery, coconut & earth.
+   ========================================================= */
+
+:root {
+  /* Core palette */
+  --brown-900: #2c1810;
+  --brown-800: #3f2417;
+  --brown-700: #5a3423;
+  --brown-600: #7a4a30;
+  --gold-700: #a8631f;
+  --gold-600: #c1792f;
+  --gold-500: #d99748;
+  --gold-400: #e8b06b;
+  --gold-100: #fbe6c8;
+  --green-600: #5c7a4a;
+  --green-700: #46603a;
+  --cream-50: #fffcf7;
+  --cream-100: #fff8ef;
+  --cream-200: #fbeedc;
+
+  --text-main: #2c1810;
+  --text-muted: #6f5b4d;
+  --text-on-dark: #fdf3e7;
+
+  --white: #ffffff;
+  --danger: #c0392b;
+  --danger-dark: #96281d;
+  --success: #46603a;
+
+  /* Typography */
+  --font-heading: "Poppins", "Segoe UI", sans-serif;
+  --font-body: "Inter", "Segoe UI", sans-serif;
+
+  /* Effects */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+  --shadow-sm: 0 2px 8px rgba(44, 24, 16, 0.08);
+  --shadow-md: 0 8px 24px rgba(44, 24, 16, 0.12);
+  --shadow-lg: 0 18px 46px rgba(44, 24, 16, 0.18);
+  --transition: 0.25s ease;
+
+  --nav-height: 76px;
+  --max-width: 1200px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--cream-50);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--brown-900);
+  margin: 0 0 0.5em 0;
+  line-height: 1.2;
+}
+
+p {
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button, input, select, textarea {
+  font-family: var(--font-body);
+}
+
+/* Shared page shell so content never sits under the fixed navbar */
+.page-shell {
+  padding-top: var(--nav-height);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-700);
+  margin-bottom: 10px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  padding: 13px 26px;
+  border-radius: var(--radius-pill);
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition), color var(--transition);
+  text-decoration: none;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold-600), var(--gold-700));
+  color: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: var(--white);
+  color: var(--brown-800);
+  border: 1.5px solid var(--gold-500);
+}
+
+.btn-secondary:hover {
+  background: var(--gold-100);
+}
+
+.btn-dark {
+  background: var(--brown-900);
+  color: var(--text-on-dark);
+}
+
+.btn-dark:hover {
+  background: var(--brown-700);
+}
+
+.btn-outline-light {
+  background: transparent;
+  color: var(--white);
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+}
+
+.btn-outline-light:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* Badges / chips */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--gold-100);
+  color: var(--gold-700);
+}
+
+/* Section spacing */
+.section {
+  padding: 80px 0;
+}
+
+.section-heading {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 48px auto;
+}
+
+.section-heading p {
+  margin-top: 12px;
+}
+
+/* Loading / empty states */
+.state-message {
+  text-align: center;
+  padding: 100px 20px;
+  color: var(--text-muted);
+  font-size: 16px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 16px auto;
+  border-radius: 50%;
+  border: 3px solid var(--gold-100);
+  border-top-color: var(--gold-600);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 640px) {
+  .section { padding: 56px 0; }
+}
