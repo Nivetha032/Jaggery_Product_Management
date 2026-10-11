@@ -1,9 +1,10 @@
 import fullVideo from "../assets/videos/jaggery_process.mp4";
 
-// 40-second animated explainer of the whole process (regenerate with tools/make_process_video.py)
+// 40-second animated explainer of the whole process
 export const FULL_VIDEO = fullVideo;
 
-// All showcase content lives here so it is easy to edit.
+// Timing inside jaggery_process.mp4 (seconds), used to jump to each step
+export const VIDEO_TIMING = { intro: 3.5, stage: 5.5 };
 
 export const FILTERS = [
   { id: "all", label: "All" },
@@ -30,22 +31,15 @@ export const CATALOG = [
   { id: "tea", type: "treat", icon: "☕", name: "Jaggery Tea Premix", desc: "Jaggery, tea and spices blended for a quick cup.", uses: "Instant tea, travel, gifting" },
 ];
 
-// 6 stages of the preparation "video"
+// The 6 steps shown beside the video (order matches the video)
 export const STAGES = [
-  { id: "harvest", icon: "🎋", anim: "sway", title: "Harvest", text: "Mature sugarcane is cut by hand at 10–12 months, stripped of leaves and carried to the mill the same day." },
-  { id: "crush", icon: "⚙️", anim: "spin", title: "Crush", text: "Cane is pressed between heavy rollers. The fresh juice is strained through cloth to remove fibre." },
-  { id: "boil", icon: "🍲", anim: "bubble", title: "Boil", text: "Juice simmers in large open pans for a few hours, thickening as the water evaporates." },
-  { id: "clarify", icon: "🥄", anim: "stir", title: "Clarify", text: "Impurities rise as foam and are skimmed off. Traditionally, plant extracts like okra are used as natural clarifiers." },
-  { id: "mould", icon: "🟫", anim: "pour", title: "Mould", text: "The thick golden syrup is poured into moulds, or stirred until it turns into powder or granules." },
-  { id: "pack", icon: "📦", anim: "bounce", title: "Cool & Pack", text: "Cooled, graded and packed in eco-friendly packaging, ready for your kitchen." },
+  { id: "harvest", icon: "🎋", title: "Harvest", text: "Mature sugarcane is cut by hand at 10–12 months, stripped of leaves and carried to the mill the same day." },
+  { id: "crush", icon: "⚙️", title: "Crush", text: "Cane is pressed between heavy rollers. The fresh juice is strained through cloth to remove fibre." },
+  { id: "boil", icon: "🍲", title: "Boil", text: "Juice simmers in large open pans for a few hours, thickening as the water evaporates." },
+  { id: "clarify", icon: "🥄", title: "Clarify", text: "Impurities rise as foam and are skimmed off. Traditionally, plant extracts like okra are used as natural clarifiers." },
+  { id: "mould", icon: "🟫", title: "Mould", text: "The thick golden syrup is poured into moulds, or stirred until it turns into powder or granules." },
+  { id: "pack", icon: "📦", title: "Cool & Pack", text: "Cooled, graded and packed in eco-friendly packaging, ready for your kitchen." },
 ];
-
-// OPTIONAL: plug in real preparation videos per stage.
-// Put an mp4 in src/assets/videos and import it, or use a YouTube video id:
-//   import crushVideo from "../assets/videos/crush.mp4";
-//   export const STAGE_VIDEOS = { crush: { src: crushVideo }, boil: { youtube: "VIDEO_ID" } };
-// Stages without an entry show the built-in animation.
-export const STAGE_VIDEOS = {};
 
 export const TOUR_STOPS = [
   { icon: "🌾", place: "The Cane Fields", fact: "Sugarcane grows for 10–12 months. Farmers hand-select the ripest stalks." },
