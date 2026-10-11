@@ -50,7 +50,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        © {new Date().getFullYear()} Rila Groups. All rights reserved.
+        © {new Date().getFullYear()} Rila Groups. All rights reserved. · <a href="/admin/login" className="footer-admin-link">Admin</a>
       </div>
     </footer>
   );

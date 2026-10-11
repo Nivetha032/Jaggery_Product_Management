@@ -48,6 +48,8 @@ CREATE TABLE IF NOT EXISTS product (
   expiry_date DATE,
   description TEXT,
   image VARCHAR(255),
+  image_data LONGBLOB NULL,      -- uploaded image bytes (set from the admin panel)
+  image_mime VARCHAR(60) NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE SET NULL
 );

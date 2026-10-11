@@ -1,26 +1,16 @@
 const multer = require("multer");
-const path = require("path");
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "..", "uploads", "images"));
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
+// Images are kept in memory and written straight into the database (LONGBLOB),
+// so no files are left on disk and the data travels with the DB.
+const ALLOWED = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 2 * 1024 * 1024 }, // 2 MB
+  fileFilter: (req, file, cb) => {
+    if (ALLOWED.includes(file.mimetype)) cb(null, true);
+    else cb(new Error("Only JPG, PNG, WEBP or GIF images are allowed."));
   },
 });
-
-const fileFilter = (req, file, cb) => {
-  const allowed = /jpeg|jpg|png|webp|gif/;
-  const isAllowed = allowed.test(path.extname(file.originalname).toLowerCase());
-  if (isAllowed) {
-    cb(null, true);
-  } else {
-    cb(new Error("Only image files (jpeg, jpg, png, webp, gif) are allowed."));
-  }
-};
-
-const upload = multer({ storage, fileFilter, limits: { fileSize: 5 * 1024 * 1024 } });
 
 module.exports = upload;

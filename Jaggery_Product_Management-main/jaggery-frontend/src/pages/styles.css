@@ -33,6 +33,8 @@
   transition: transform var(--transition), box-shadow var(--transition);
   display: flex;
   flex-direction: column;
+  animation: fadeUp .5s ease backwards;
+  animation-delay: calc(var(--i, 0) * 70ms);
 }
 
 .product-card:hover {

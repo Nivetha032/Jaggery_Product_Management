@@ -72,7 +72,7 @@
 .navbar-links {
   list-style: none;
   display: flex;
-  gap: 34px;
+  gap: 26px;
   padding: 0;
   margin: 0;
 }
@@ -159,7 +159,7 @@
   }
 
   .navbar-links.open {
-    max-height: 320px;
+    max-height: 480px;
   }
 
   .navbar-links li {
