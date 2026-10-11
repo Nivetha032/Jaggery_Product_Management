@@ -118,7 +118,7 @@ const ProductDetails = () => {
               <span className="badge">{product?.stock > 0 ? "In Stock" : "Out of Stock"}</span>
               <h1>{product?.name || "N/A"}</h1>
               <div className="product-meta">
-                <span><strong>Category:</strong> {product?.category_id || "N/A"}</span>
+                <span><strong>Category:</strong> {product?.category_name || "N/A"}</span>
                 <span><strong>Expiry:</strong> {product?.expiry_date || "Not Available"}</span>
               </div>
               <p className="product-price">Rs.{product?.price || "0.00"}</p>

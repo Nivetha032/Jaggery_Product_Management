@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaLeaf, FaTruck, FaSeedling, FaRecycle, FaArrowRight } from "react-icons/fa";
+import { FaLeaf, FaTruck, FaSeedling, FaRecycle, FaArrowRight, FaChevronDown } from "react-icons/fa";
 import "./Home.css";
+import "../styles/showcase.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Reveal from "../components/Reveal";
+import JaggeryCatalog from "../components/JaggeryCatalog";
+import ProcessPlayer from "../components/ProcessPlayer";
+import JaggeryTour from "../components/JaggeryTour";
 import videoFile from "../assets/videos/section1.mp4";
 import aboutImage from "../assets/images/about.png";
 
@@ -26,6 +31,16 @@ const WHY_US = [
 
 const Home = () => {
   const navigate = useNavigate();
+
+  // Scroll to #section when arriving via a link like /#process
+  useEffect(() => {
+    if (!window.location.hash) return;
+    const t = setTimeout(() => {
+      const el = document.querySelector(window.location.hash);
+      if (el) el.scrollIntoView();
+    }, 150);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
     <div>
@@ -51,19 +66,20 @@ const Home = () => {
             <a href="#about" className="btn btn-outline-light">Our Story</a>
           </div>
         </div>
+        <a href="#varieties" className="hero-scroll" aria-label="Scroll down"><FaChevronDown /></a>
       </section>
 
       {/* Featured products */}
       <section className="section products-section">
         <div className="container">
-          <div className="section-heading">
+          <Reveal className="section-heading">
             <span className="eyebrow">Handpicked For You</span>
             <h2>Our Products</h2>
             <p>Explore our range of naturally made jaggery and coconut goods.</p>
-          </div>
+          </Reveal>
           <div className="products-grid">
-            {FEATURED_PRODUCTS.map((product) => (
-              <div className="feature-card" key={product.name}>
+            {FEATURED_PRODUCTS.map((product, i) => (
+              <Reveal className="feature-card" key={product.name} delay={i * 120}>
                 <div className="feature-card-image">
                   <img src={product.image} alt={product.name} />
                   <span className="badge feature-card-badge">{product.tag}</span>
@@ -74,19 +90,23 @@ const Home = () => {
                     View Products
                   </button>
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
+      <JaggeryCatalog />
+      <ProcessPlayer />
+      <JaggeryTour />
+
       {/* About */}
       <section className="section about-section" id="about">
         <div className="container about-grid">
-          <div className="about-image">
+          <Reveal className="about-image">
             <img src={aboutImage} alt="Rila Groups team at work" />
-          </div>
-          <div className="about-content">
+          </Reveal>
+          <Reveal className="about-content" delay={150}>
             <span className="eyebrow">About Us</span>
             <h2>Trusted, Traditional &amp; Truly Organic</h2>
             <p>
@@ -107,7 +127,7 @@ const Home = () => {
                 </li>
               ))}
             </ul>
-          </div>
+          </Reveal>
         </div>
       </section>
 

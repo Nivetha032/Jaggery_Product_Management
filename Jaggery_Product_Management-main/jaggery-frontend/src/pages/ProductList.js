@@ -61,8 +61,8 @@ const ProductList = () => {
 
           {!loading && !error && products.length > 0 && (
             <div className="product-grid">
-              {products.map((product) => (
-                <div key={product.id} className="product-card">
+              {products.map((product, i) => (
+                <div key={product.id} className="product-card" style={{ "--i": i }}>
                   <div className="product-card-image">
                     <img
                       src={`http://localhost:3001/images/${product.image}`}

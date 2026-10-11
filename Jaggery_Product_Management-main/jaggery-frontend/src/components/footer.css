@@ -143,3 +143,12 @@
     grid-template-columns: 1fr;
   }
 }
+
+.footer-admin-link {
+  color: rgba(253, 243, 231, 0.6);
+  text-decoration: none;
+}
+
+.footer-admin-link:hover {
+  color: var(--gold-400);
+}

@@ -4,16 +4,42 @@ Express + MySQL API that powers the `jaggery-frontend` React app.
 
 ## What this provides
 
-The frontend calls three endpoints — this backend implements exactly those,
-plus a few extra admin routes for future use (product/category CRUD, order
-listing, admin login):
+**Public (storefront)**
 
 | Method | Route                | Used by                          |
 |--------|-----------------------|-----------------------------------|
 | GET    | `/auth/product`       | `ProductList.js`                  |
 | GET    | `/auth/product/:id`   | `ProductDetails.js`               |
+| GET    | `/auth/category`      | Admin filters / forms             |
 | GET    | `/images/:filename`   | Product image `<img>` tags        |
-| POST   | `/api/orders`         | `Checkout.js`                     |
+| POST   | `/api/orders`         | `Checkout.js` (also reduces stock)|
+
+**Admin (needs `Authorization: Bearer <token>`)**
+
+| Method | Route                      | Purpose                         |
+|--------|-----------------------------|----------------------------------|
+| POST   | `/auth/adminlogin`          | Get a JWT                        |
+| GET    | `/auth/stats`               | Dashboard numbers                |
+| POST   | `/auth/product`             | Add product (multipart + image)  |
+| PUT    | `/auth/product/:id`         | Edit product / replace image     |
+| DELETE | `/auth/product/:id`         | Delete product                   |
+| POST/PUT/DELETE | `/auth/category`   | Manage categories                |
+| GET    | `/api/orders`               | List all orders                  |
+| PUT    | `/api/orders/:id/status`    | Update order status              |
+
+### Where images are stored
+
+Images uploaded from the admin panel are stored **inside the database**
+(`product.image_data`, a `LONGBLOB`, plus `image_mime`) and served at
+`/images/<filename>`. Nothing is written to disk. The 3 seed products use
+image files shipped in `uploads/images/`.
+
+Upload limit is **2 MB** per image. If MySQL rejects an upload with a
+"packet too large" error, raise `max_allowed_packet` (XAMPP: `my.ini` →
+`max_allowed_packet=16M`, then restart MySQL).
+
+> **Already imported an older `schema.sql`?** No action needed — the server
+> adds the new image columns automatically on startup.
 
 Responses use the exact shape the frontend already expects:
 `{ Status: true, Result: ... }` or `{ Status: false, Error: "..." }`.
